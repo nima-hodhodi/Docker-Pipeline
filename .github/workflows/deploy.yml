@@ -16,7 +16,7 @@ jobs:
       - name: Build and Run Docker Container
         run: |
           cd /home/ubuntu/python/app
-          https://github.com/nima-hodhodi/Docker-Pipeline.git
+          git clone https://github.com/nima-hodhodi/Docker-Pipeline.git
           docker stop python-app || true
           docker rm python-app || true
           docker build -t python-app .
