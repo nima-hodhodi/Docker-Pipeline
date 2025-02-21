@@ -1,4 +1,4 @@
-name: Build and Deploy to Ubuntu Server
+name: Build and Deploy Locally
 
 on:
   push:
@@ -7,22 +7,17 @@ on:
 
 jobs:
   deploy:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
 
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v3
 
-      - name: Connect to Server and Deploy
-        uses: appleboy/ssh-action@v0.1.7
-        with:
-          host: ${{ vars.SERVER_HOST }}
-          username: ${{ vars.SERVER_USER }}
-          key: ${{ secrets.SERVER_KEY }}
-          script: |
-            cd /home/ubuntu/python/app || mkdir /home/ubuntu/python/app && cd /home/ubuntu/python/app
-            git pull origin main || git clone https://github.com/YOUR_GITHUB_USERNAME/YOUR_REPO_NAME.git /home/ubuntu/python/app
-            docker stop python-app || true
-            docker rm python-app || true
-            docker build -t python-app .
-            docker run -d --name python-app -p 5000:5000 python-app
+      - name: Build and Run Docker Container
+        run: |
+          cd /home/ubuntu/python/app || mkdir -p /home/ubuntu/python/app && cd /home/ubuntu/python/app
+          git pull origin main || git clone https://github.com/YOUR_GITHUB_USERNAME/YOUR_REPO_NAME.git .
+          docker stop python-app || true
+          docker rm python-app || true
+          docker build -t python-app .
+          docker run -d --name python-app -p 5000:5000 python-app
