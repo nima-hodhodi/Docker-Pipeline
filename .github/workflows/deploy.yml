@@ -17,6 +17,7 @@ jobs:
         run: |
           cd /home/ubuntu/python/app
           git clone https://github.com/nima-hodhodi/Docker-Pipeline.git
+          cd Docker-Pipeline
           docker stop python-app || true
           docker rm python-app || true
           docker build -t python-app .
