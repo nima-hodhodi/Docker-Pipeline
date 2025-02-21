@@ -1,14 +1,3 @@
-FROM docker.arvancloud.ir/python:3.10
-
-WORKDIR /app
-
-COPY . .
-
-RUN pip install flask
-
-CMD ["python", "app.py"]
-
-root@docker01:/home/ubuntu/python/app# cat app.py
 from flask import Flask
 
 app = Flask(__name__)
